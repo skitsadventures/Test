@@ -1,0 +1,152 @@
+<!-- views/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Market Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex; /* Use flex container to arrange items vertically */
+            flex-direction: column; /* Arrange items vertically */
+        }
+
+        header {
+            background-color: #007acc;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        similar-names,
+        comparrison-div {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        comparrison-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border: 1px solid #ccc; /* Add border */
+            padding: 10px; /* Add padding for better visual separation */
+            border-radius: 8px; /* Add border-radius for rounded corners */
+        }
+
+         /* Separate the left and right columns with a border */
+         .left-column,
+        .right-column {
+            border-right: 1px solid #ccc; /* Add border to separate columns */
+            padding-right: 10px; /* Add padding to right column for better visual separation */
+        }
+
+        /* Remove border from the last right column to prevent double border */
+        .comparrison-section:last-child .right-column {
+            border-right: none;
+        }
+
+        main {
+            display: flex; /* Use flex container to arrange columns side by side */
+            justify-content: space-between; /* Add space between the new sections and the columns */
+            margin-bottom: 20px; /* Adjust margin for spacing between main and similar-names */
+        }
+
+        section {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin-right: 10px; /* Adjust margin for spacing between columns */
+            border-radius: 8px;
+            flex: 0.5; /* Each section takes half the width */
+        }
+
+        h2 {
+            color: #007acc;
+        }
+
+        pre {
+            white-space: pre-wrap;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Crypto Market Data</h1>
+    </header>
+
+    <similar-names>
+        <h2>Similar Names</h2>
+        <% if (commonMarketsData && commonMarketsData.length > 0) { %>
+            <ul>
+                <% commonMarketsData.forEach(marketData => { %>
+                    <li><%= marketData.market %></li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p class="error">No common markets found.</p>
+        <% } %>
+        
+    </similar-names>
+
+    <comparrison-div>
+        <h2>Comparison Div</h2>
+        <% if (commonMarketsData && commonMarketsData.length > 0) { %>
+            <% commonMarketsData.forEach(marketData => { %>
+                <comparrison-section>
+                    <h3><%= marketData.market %></h3>
+                    <div class="left-column">
+                        <!-- Display ChainEX fields -->
+                        <p>Last Price: <%= marketData.chainEXFields.last_price %></p>
+                        <p>Top Bid: <%= marketData.chainEXFields.top_bid %></p>
+                        <p>Top Ask: <%= marketData.chainEXFields.top_ask %></p>
+                    </div>
+                    <div class="right-column">
+                        <!-- Display VALR fields -->
+                        <p>Last Traded Price: <%= marketData.valrFields.lastTradedPrice %></p>
+                        <p>Bid Price: <%= marketData.valrFields.bidPrice %></p>
+                        <p>Ask Price: <%= marketData.valrFields.askPrice %></p>
+                    </div>
+                </comparrison-section>
+            <% }); %>
+        <% } else { %>
+            <p class="error">No common markets found.</p>
+        <% } %>
+    </comparrison-div>
+
+    <main>
+        <section>
+            <h2>ChainEX Market Data</h2>
+            <% if (chainEXData) { %>
+                <pre><%= JSON.stringify(chainEXData, null, 2) %></pre>
+            <% } else { %>
+                <p class="error">Error fetching ChainEX market data.</p>
+            <% } %>
+        </section>
+
+        <section>
+            <h2>VALR Market Data</h2>
+            <% if (valrData) { %>
+                <pre><%= JSON.stringify(valrData, null, 2) %></pre>
+            <% } else { %>
+                <p class="error">Error fetching VALR market data.</p>
+            <% } %>
+        </section>
+    </main>
+
+</body>
+
+</html>

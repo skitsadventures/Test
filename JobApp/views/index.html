@@ -1,0 +1,17 @@
+<section style="background-color: #ffffff;">
+    <h2 style="color: #007acc;">ChainEX Market Data</h2>
+    <% if (chainEXData) { %>
+        <pre><%= JSON.stringify(chainEXData, null, 2) %></pre>
+    <% } else { %>
+        <p>Error fetching ChainEX market data.</p>
+    <% } %>
+</section>
+
+<section style="background-color: #ffffff;">
+    <h2 style="color: #007acc;">VALR Market Data</h2>
+    <% if (valrData) { %>
+        <pre><%= JSON.stringify(valrData, null, 2) %></pre>
+    <% } else { %>
+        <p>Error fetching VALR market data.</p>
+    <% } %>
+</section>
